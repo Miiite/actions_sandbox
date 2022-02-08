@@ -21,7 +21,7 @@ jobs:
         run: echo "::set-output name=canRunJob::${{ github.event.inputs.flag != false && env.FLAG }}"
 
   Test2:
-    if: ${{ needs.Environment.outputs.canRunJob == true }}
+    if: ${{ needs.Environment.outputs.canRunJob == 'true' }}
     needs: Environment
     name: Test2
     runs-on: ubuntu-latest

@@ -1,0 +1,21 @@
+name: weekly_delivery
+
+on:
+  workflow_dispatch:
+    # Faire cohabiter workflow_dispatch et schedule
+    # https://github.community/t/workflow-dispatch-and-schedule-with-inputs/131004/7
+    inputs:
+      param:
+        description: "My param"
+        default: true
+        required: true
+        type: boolean
+  # Triggers every friday (morning) at midnight
+  schedule:
+    - cron: "*/10 * * * *"
+
+jobs:
+  my_job:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ github.event.inputs.param }}

@@ -1,6 +1,7 @@
 name: test_cache
 
 on:
+  workflow_dispatch:
   push:
 
 jobs:

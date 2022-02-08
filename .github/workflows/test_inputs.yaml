@@ -10,13 +10,10 @@ on:
         default: true
         required: true
         type: boolean
-  # Triggers every friday (morning) at midnight
-  schedule:
-    - cron: "*/10 * * * *"
   push:
 
 jobs:
   my_job:
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ github.event.inputs.param }}
+      - run: echo ${{ github.event.inputs.param != 'false' }}

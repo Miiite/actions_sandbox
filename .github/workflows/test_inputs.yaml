@@ -1,19 +1,26 @@
 name: weekly_delivery
 
 on:
-  workflow_dispatch:
-    # Faire cohabiter workflow_dispatch et schedule
-    # https://github.community/t/workflow-dispatch-and-schedule-with-inputs/131004/7
-    inputs:
-      param:
-        description: "My param"
-        default: true
-        required: true
-        type: boolean
   push:
-
+  workflow_dispatch:
+    inputs:
+      an_input:
+        description: "Input?"
 jobs:
-  my_job:
+  Environment:
+    runs-on: ubuntu-latest
+    env:
+      DEFAULT_INPUT: defaultINPUT
+    outputs:
+      canRunJob: ${{ steps.step1.outputs.canRunJob }}
+    steps:
+      - id: step1
+        run: echo "::set-output name=canRunJob::${{ github.event.inputs.an_input || DEFAULT_INPUT }}"
+
+  Test2:
+    if: ${{ jobs.Environment.outputs.canRunJob == 'defaultINPUT' }}
+    name: Test2
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ github.event.inputs.param != 'false' }}
+      - name: Step 1
+        run: echo ${{ jobs.Environment.outputs.canRunJob }}

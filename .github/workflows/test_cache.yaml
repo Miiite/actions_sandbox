@@ -1,0 +1,39 @@
+name: test_cache
+
+on:
+  push:
+
+jobs:
+  no-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      # Install flutter with the specified version
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: ${{ steps.dotenv.outputs.flutter-version }}
+
+      - name: Install dependencies
+        run: flutter pub get
+        working-directory: testproject
+
+  with-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache multiple paths
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.pub-cache
+          key: dart-pub-cache
+
+      # Install flutter with the specified version
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: ${{ steps.dotenv.outputs.flutter-version }}
+      - name: Install dependencies
+        run: flutter pub get
+        working-directory: testproject

@@ -1,4 +1,4 @@
-name: weekly_delivery
+name: test_input
 
 on:
   push:

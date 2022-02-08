@@ -15,7 +15,7 @@ jobs:
       canRunJob: ${{ steps.step1.outputs.canRunJob }}
     steps:
       - id: step1
-        run: echo "::set-output name=canRunJob::${{ github.event.inputs.an_input || DEFAULT_INPUT }}"
+        run: echo "::set-output name=canRunJob::${{ github.event.inputs.an_input || env.DEFAULT_INPUT }}"
 
   Test2:
     if: ${{ jobs.Environment.outputs.canRunJob == 'defaultINPUT' }}

@@ -29,7 +29,9 @@ jobs:
         with:
           path: |
             ~/.pub-cache
-          key: dart-pub-cache
+          key: dart-pub-cache-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            dart-pub-cache-
 
       # Install flutter with the specified version
       - uses: subosito/flutter-action@v1

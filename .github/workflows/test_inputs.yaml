@@ -18,7 +18,7 @@ jobs:
       canRunJob: ${{ steps.step1.outputs.canRunJob }}
     steps:
       - id: step1
-        run: echo "::set-output name=canRunJob::${{ github.event.inputs.flag != false && env.DEFAULT_INPUT }}"
+        run: echo "::set-output name=canRunJob::${{ github.event.inputs.flag != 'false' && env.FLAG }}"
 
   Test2:
     if: ${{ needs.Environment.outputs.canRunJob }}

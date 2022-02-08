@@ -18,10 +18,10 @@ jobs:
       canRunJob: ${{ steps.step1.outputs.canRunJob }}
     steps:
       - id: step1
-        run: echo "::set-output name=canRunJob::${{ github.event.inputs.flag != 'false' && env.FLAG }}"
+        run: echo "::set-output name=canRunJob::${{ github.event.inputs.flag != false && env.FLAG }}"
 
   Test2:
-    if: ${{ needs.Environment.outputs.canRunJob }}
+    if: ${{ needs.Environment.outputs.canRunJob == true }}
     needs: Environment
     name: Test2
     runs-on: ubuntu-latest

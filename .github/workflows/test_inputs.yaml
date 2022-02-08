@@ -19,8 +19,9 @@ jobs:
 
   Test2:
     if: ${{ jobs.Environment.outputs.canRunJob == 'defaultINPUT' }}
+    needs: Environment
     name: Test2
     runs-on: ubuntu-latest
     steps:
       - name: Step 1
-        run: echo ${{ jobs.Environment.outputs.canRunJob }}
+        run: echo ${{ needs.Environment.outputs.canRunJob }}

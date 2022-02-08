@@ -4,6 +4,8 @@ on:
   push:
   workflow_dispatch:
     inputs:
+      flag:
+        type: boolean
       an_input:
         description: "Input?"
 jobs:
@@ -11,14 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DEFAULT_INPUT: defaultINPUT
+      FLAG: true
     outputs:
       canRunJob: ${{ steps.step1.outputs.canRunJob }}
     steps:
       - id: step1
-        run: echo "::set-output name=canRunJob::${{ github.event.inputs.an_input || env.DEFAULT_INPUT }}"
+        run: echo "::set-output name=canRunJob::${{ github.event.inputs.flag != false && env.DEFAULT_INPUT }}"
 
   Test2:
-    if: ${{ needs.Environment.outputs.canRunJob == 'defaultINPUT' }}
+    if: ${{ needs.Environment.outputs.canRunJob }}
     needs: Environment
     name: Test2
     runs-on: ubuntu-latest

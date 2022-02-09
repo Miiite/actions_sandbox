@@ -1,0 +1,11 @@
+name: branch_name_push
+
+on:
+  push:
+
+jobs:
+  Environment:
+    runs-on: ubuntu-latest
+    steps:
+      - id: step1
+        run: echo "Branch name ${GITHUB_REF#refs/heads/}"

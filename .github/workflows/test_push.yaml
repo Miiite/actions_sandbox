@@ -17,6 +17,6 @@ jobs:
         if: github.ref == 'refs/heads/master'
         run: echo "Don't run"
 
-      - id: step3
+      - id: step4
         if: github.ref == 'refs/heads/fix/branch_name'
         run: echo "do run"

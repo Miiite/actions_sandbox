@@ -8,4 +8,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: step1
-        run: echo "Branch name ${GITHUB_REF#refs/heads/}"
+        run: echo "Branch name "${GITHUB_REF#refs/heads/}
+
+      - id: step2
+        run: echo "Branch name "${{github.ref_name}}
+
+      - id: step3
+        if: github.ref == 'refs/heads/master'
+        run: echo "Don't run"
+
+      - id: step4
+        if: github.ref == 'refs/heads/fix/branch_name'
+        run: echo "do run"

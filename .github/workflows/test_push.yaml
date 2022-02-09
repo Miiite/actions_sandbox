@@ -14,5 +14,9 @@ jobs:
         run: echo "Branch name "$GITHUB_REF_NAME
 
       - id: step3
-        if: ${{ GITHUB_REF#refs/heads/ != 'develop' }}
-        run: echo "This branch is not develop"
+        if: github.ref == 'refs/heads/master'
+        run: echo "Don't run"
+
+      - id: step3
+        if: github.ref == 'refs/heads/fix/branch_name'
+        run: echo "do run"

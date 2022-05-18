@@ -1,0 +1,43 @@
+name: test_antislash
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  antislash:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: read changelog
+        id: read_changelog
+        run: |
+          CHANGELOG=$(awk '{printf "%s\\n", $0}' changelog.txt)
+          echo "::set-output name=changelog::$CHANGELOG"
+
+      - name: print changelog
+        run: |
+          echo "This is my title\nMy first line\nand the changelog\n${{ steps.read_changelog.outputs.changelog }}"
+
+      # - name: Read changelog
+      #   if: ${{ needs.parameters.outputs.canNotifySlack == 'true' }}
+      #   id: read_changelog
+      #   run: |
+      #     CHANGELOG=$(awk '{printf "%s\\n", $0}' changelog.txt)
+      #     echo "::set-output name=changelog::$(echo "$CHANGELOG")"
+
+      #   - name: Notify Slack
+      #   id: slack
+      #   if: ${{ needs.parameters.outputs.canNotifySlack == 'true' }}
+      #   continue-on-error: true
+      #   uses: slackapi/slack-github-action@v1.19.0
+      #   with:
+      #     # Slack channel id, channel name, or user id to post message.
+      #     # See also: https://api.slack.com/methods/chat.postMessage#channels
+      #     # C03DXRNEKHB: #product_release
+      #     channel-id: "C03DXRNEKHB"
+      #     # For posting a simple plain text message
+      #     slack-message: "[Github] Publication d'une nouvelle version interne: v${{ steps.version.outputs.pubspec_version }}\nAndroid ${{ needs.delivery_android.result == 'success' && ':white_check_mark:' || ':x:'  }}\niOS ${{ needs.delivery_iOS.result == 'success' && ':white_check_mark:' || ':x:' }}\n${{ steps.read_changelog.outputs.changelog }}"
+      #   env:
+      #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}

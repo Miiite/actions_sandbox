@@ -1,0 +1,9 @@
+[CI] Added the changelog informations into the daily slack notification (#860)
+[DSK-XX] Fix color on AppIconButton when not pressed (#863)
+[CHAT-422] Add Chat subtitle producer (#861)
+[EVENT-278] Share event text as non-participant (#857)
+[SHOP-253] Fix AppInformationIcon size (#859)
+[EVENT-260] Copy description on long press (#856)
+[EVENT-262] Loader on event details screen (#855)
+[DSK-61] Haptic feedbacks (#838)
+

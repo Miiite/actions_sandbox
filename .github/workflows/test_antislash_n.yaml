@@ -14,12 +14,12 @@ jobs:
         id: read_changelog
         run: |
           CHANGELOG=$(awk '{printf "%s\\n", $0}' changelog.txt)
-          echo "::set-output name=changelog::$(echo "$CHANGELOG")"
+          echo "::set-output name=changelog::$CHANGELOG"
 
       - name: print changelog
         run: |
-          echo ${{ steps.read_changelog.outputs.changelog }}
-          echo "This is my title\nMy first line\nand the changelog\n${{ steps.read_changelog.outputs.changelog }}"
+          printf ${{ steps.read_changelog.outputs.changelog }}
+          printf "This is my title\nMy first line\nand the changelog\n${{ steps.read_changelog.outputs.changelog }}"
 
       # - name: Read changelog
       #   if: ${{ needs.parameters.outputs.canNotifySlack == 'true' }}

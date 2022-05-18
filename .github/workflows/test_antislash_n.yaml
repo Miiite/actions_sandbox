@@ -18,6 +18,7 @@ jobs:
 
       - name: print changelog
         run: |
+          echo $CHANGELOG
           echo "This is my title\nMy first line\nand the changelog\n${{ steps.read_changelog.outputs.changelog }}"
 
       # - name: Read changelog

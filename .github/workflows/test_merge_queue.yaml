@@ -1,0 +1,58 @@
+name: sanity_check
+
+on:
+  pull_request:
+    types: [auto_merge_enabled]
+  workflow_dispatch:
+
+# Make sure only one build is running per branch
+# Cancel any running build, if a new one is started
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sanity_check:
+    # Only start the job when the PR is not in draft mode, and when the label "ready-for-build" is applied
+    if: github.event.pull_request.draft == false
+    runs-on: [self-hosted, Linux]
+    steps:
+      # Queue label
+      - uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: in-queue
+
+      # Get lock
+      - name: Acquire lock
+        id: acquire_lock
+        run: |
+          while ! mkdir lock; do
+            echo "Failed to acquire lock, waiting 5 seconds..."
+            sleep 5
+          done
+
+      # Remove queue label
+      - uses: actions-ecosystem/action-remove-labels@v1
+        with:
+          labels: in-queue
+
+      # Build in progress label
+      - uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: build-in-progress
+
+      - uses: actions/checkout@v3
+
+      - name: Wait
+        run: sleep 60
+
+      # Remove build in progress label
+      - uses: actions-ecosystem/action-remove-labels@v1
+        if: ${{ always() && github.event_name == 'pull_request' }}
+        with:
+          labels: build-in-progress
+
+      # Remove lock
+      - name: Release lock
+        if: ${{ always() && steps.acquire_lock.outputs.returncode == 0 }}
+        run: rmdir lock

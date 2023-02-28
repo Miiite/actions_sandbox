@@ -15,7 +15,7 @@ jobs:
   sanity_check:
     # Only start the job when the PR is not in draft mode, and when the label "ready-for-build" is applied
     if: github.event.pull_request.draft == false
-    runs-on: [self-hosted, Linux]
+    runs-on: ubuntu-latest
     steps:
       # Queue label
       - uses: actions-ecosystem/action-add-labels@v1
